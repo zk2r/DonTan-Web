@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="styles.css">
+    <title>どんたん</title>
+    <script type="module" src="scripts/web/main.js"></script>
+    <link rel="preload" href="scripts/worker/main.js" as="worker" type="application/javascript">
+    <link rel="preload" href="scripts/worker/js-lib/wasm/wasm_module.js" as="script" type="application/javascript">
+    <link rel="preload" href="scripts/worker/js-lib/wasm/wasm_module_bg.wasm" as="fetch" type="application/wasm">
+</head>
+
+<body>
+    <h1>どんたん</h1>
+
+    <main>
+        <div class="grid-container">
+            <div class="area-program">
+                <div><label for="program">プログラム</label></div>
+                <textarea id="program"></textarea>
+            </div>
+            <div class="area-controls">
+                <div class="controls-buttons">
+                    <span>
+                        <button id="run">実行</button>
+                        <button id="stop" disabled>停止</button>
+                    </span>
+                    <span style="display: none;">
+                        <label for="cell-size">Cell size (bits):</label>
+                        <select id="cell-size">
+                            <option value="8">8</option>
+                            <option value="16">16</option>
+                            <option value="32" selected>32</option>
+                            <option value="64">64</option>
+                        </select>
+                    </span>
+                    <span style="display: none;">
+                        <label for="array-size">Cell array size (minimum):</label>
+                        <input type="number" id="array-size" min="1" value="32768">
+                    </span>
+                </div>
+                <div class="controls-status">準備完了</div>
+            </div>
+            <div class="area-input">
+                <div><label for="input">入力</label></div>
+                <textarea id="input"></textarea>
+                <div>
+                    <fieldset style="display: none;">
+                        <legend>EOF behavior</legend>
+
+                        <input type="radio" name="eof" id="no-change" checked>
+                        <label for="no-change">No change</label>
+
+                        <input type="radio" name="eof" id="zero">
+                        <label for="zero">0</label>
+
+                        <input type="radio" name="eof" id="neg-one">
+                        <label for="neg-one">-1</label>
+                    </fieldset>
+                </div>
+            </div>
+            <div class="area-output">
+                <div><label for="output">出力</label></div>
+                <textarea id="output" disabled></textarea>
+            </div>
+        </div>
+    </main>
+    <div class="details-container">
+    <details>
+        <summary>これは何？</summary>
+        <h3>「どん」「たん」「どど」「うー」「わお」「はい」「！」「あべばべばばば」の8つの命令からなるプログラミング言語(?)のWebコンパイラです。</h3>
+            <p>「どん」： ポインタをインクリメント</p>
+            <p>「たん」： ポインタをデクリメント</p>
+            <p>「どど」： ポインタが指す値をインクリメント</p>
+            <p>「うー」： ポインタが指す値をデクリメント</p>
+            <p>「はい」： ポインタが指す値が0なら、対応する「わお」の直後にジャンプ</p>
+            <p>「わお」： ポインタが指す値が0でないなら、対応する「はい」の直後にジャンプ</p>
+            <p>「！」： 入力をポインタが指す値に代入</p>
+            <p>「あべばべばばば」： ポインタが指す値を出力</p>   
+            <a href="https://ja.wikipedia.org/wiki/Brainfuck">種明かし</a>　　
+            <a href="https://github.com/Quantaly/bf2wasm">フォーク元</a>     
+    </details>
+    </div>
+    <div class="details-container">
+        <h2>サンプルプログラム</h2>
+        <details>
+            <summary>Hello World!</summary>
+            <p>どどどどどどどどどどどどどどどどはいどんどどどどどどどどはいどんどどどどどんどどどどどどどんどどどどどどどんどどたんたんたんたんうーわおどんどどんどどどんうーどんどんどどはいたんわおたんうーわおどんどんあべばべばばばどんうーうーうーあべばべばばばどどどどどどどど
+        </details>
+        <details>
+            <summary>FizzBuzz</summary>
+            <p>どどどどどどどどどどどどはいうーどんどどどどどどどどどんどんどどどんどどどんうーたんたんたんたんたんわおどんはいたんどどどどどどどどどんどんどどどどどどどんどどどどどどどどどんどんどどどどどどどんどどどどどどどどどどどんどどどどどどどどどどどんどんどんどんどんどんどどどどどんどんどどどどたん
+            たんたんたんたんたんたんたんたんたんたんたんたんたんうーわおたんどどどどどどどどどんどどどどどどどんうーうーどんどどどどどどどんうーどんどんうーうーうーどんどどどどどんどんどんどどどどどどどどどどはいうーどんどどどどどんどどどどたんたんわおたんたんたんたんたんたんたんたんたんたんはいうーどん
+            うーはいどんどんどんどんどんどんどんわおどんはいたんどどどどどどどんあべばべばばばどんあべばべばばばどんどんどんどんあべばべばばばあべばべばばばどんどんどんどどたんわおたんたんたんたんたんうーはいどんどんどんどんわおどんはいたんどどどどどどどどどどどんあべばべばばばどんあべばべばばばどんあべばべばばばあべばべばばばどんどんどんどどたんわおどんどんどんどんどどたんうーはい
+            たんたんたんわおたんはいはいうーたんたんどどどんどんわおどんどんどんどどどんどどたんたんたんたんたんたんはいうーどんどんどどどんどどどんうーたんたんたんたんわおたんわおどんどんはいはいうーわおたんわおどんはいどんどんどんはいどんあべばべばばばたんたんあべばべばばばたんたんたんわおたんはいあべばべばばばたんたんたんたんわお
+            どんわおどんあべばべばばばたんたんたんたんたんたんたんたんたんたんたんわお
+        </details>
+        <details>
+            <summary>入力をそのまま出力</summary>
+            <p>！はいあべばべばばば！わお
+        </details>
+    </div>
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/nTdqc8x0JZ8?si=-d-uXoSekl4b1EaS&amp;start=355" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+</body>
+
+</html>
